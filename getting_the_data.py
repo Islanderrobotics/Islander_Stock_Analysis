@@ -1,6 +1,6 @@
 import pandas as pd
 from selenium import webdriver
-import time
+from pathlib import Path
 import requests
 import os
 
@@ -19,7 +19,7 @@ class GettingTheData:
         self.data["NASDAQ"].append("/Users/williammckeon/Downloads/NASADQ - Sheet1.csv")
         self.data["NYSE"].append("/Users/williammckeon/Downloads/NYSE - sheet1.csv")
         self.data["AMEX"].append("/Users/williammckeon/Downloads/AMEX - sheet1.csv")
-         self.driver_path = "/Users/williammckeon/Sync/chromedriver"
+        self.driver_path = "/Users/williammckeon/Sync/chromedriver"
     
     def download(self):
         '''this is where the download will happen'''
@@ -34,7 +34,9 @@ class GettingTheData:
                     count+=1
         driver = webdriver.Chrome(self.driver_path)
         driver.get(self.data[self.chosen_market][0])
-        time.sleep(.2)
+        while (True):
+            if Path(self.data[self.chosen_market][1]).is_file():
+                break
 
     def delete(self):
         '''this function will delete the data once the file is done with the data'''

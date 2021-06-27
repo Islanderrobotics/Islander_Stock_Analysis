@@ -1,5 +1,6 @@
 
 import pandas as pd
+from price import Price,StockDoesNotExistError
 from getting_the_data import GettingTheData
 class Islander_stocks:
 	'''the purpose of this class is to allow the user to see all of the current stocks
@@ -26,4 +27,32 @@ class Islander_stocks:
 		self.key.append("stock")
 		stock.delete()
 
+	def PriceOfStock(self):
+		self.data["price"] =[]
+		self.data["symbols"] = []
+		self.data["percentage"] = []
+		self.key.append("price")
+		self.key.append("symbols")
+		self.key.append("percentage")
+		while (True):
+			try:
+				maximum = int(input("what is the maximum price you would like to spend"))
+				break
+			except ValueError:
+				print("Please make a choice")
+		for i in self.data[self.key[0]]:
+			try:
+				data = Price(symbol=i)
+				data.driver()
+				if(data.current_price<=maximum and data.current_price>0 and data.current_percentage>0):
+					self.data[self.key[1]].append(data.current_price)
+					self.data[self.key[2]].append(i)
+					self.data[self.key[3]].append(data.current_percentage)
+					print(f"${data.current_price},{100*data.current_percentage}%,{i}")
+			except StockDoesNotExistError:
+				pass
+		self.data["price_and_symbol"] = list(zip(self.data[self.key[1]], self.data[self.key[2]]))
+		self.data["percentage_and_symbol"] = list(zip(self.data[self.key[3]], self.data[self.key[2]]))
+		self.key.append("price_and_symbol")
+		self.key.append("percentage_and_symbol")
 
