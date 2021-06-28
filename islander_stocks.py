@@ -22,10 +22,8 @@ class Islander_stocks:
 				print("please chose from the following")
 
 		stock = GettingTheData(chosen_market = user.upper())
-		stock.download()
-		self.data["stock"] = stock.symbols()
+		self.data["stock"] = stock.download()
 		self.key.append("stock")
-		stock.delete()
 
 	def PriceOfStock(self):
 		self.data["price"] =[]
@@ -36,15 +34,15 @@ class Islander_stocks:
 		self.key.append("percentage")
 		while (True):
 			try:
-				maximum = int(input("what is the maximum price you would like to spend"))
+				m = int(input("what is the maximum price you would like to spend"))
 				break
 			except ValueError:
 				print("Please make a choice")
-			thread = {}
+		thread = {}
 		for i in range(0,len(self.data[self.key[0]])//os.cpu_count(),os.cpu_count()):
 			for j in range(os.cpu_count()):
 				index = self.data[self.key[0]][j+i]
-				thread[str(j)] = Thread(target=self.speedy, args=(index,maximum))
+				thread[str(j)] = Thread(target=self.speedy, args=(index,m,))
 			for w in range(os.cpu_count()):
 				thread[str(w)].start()
 			for l in range(os.cpu_count()):
