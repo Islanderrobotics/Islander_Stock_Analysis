@@ -1,5 +1,5 @@
-
-import pandas as pd
+import os
+from threading import Thread
 from price import Price,StockDoesNotExistError
 from getting_the_data import GettingTheData
 class Islander_stocks:
@@ -40,19 +40,27 @@ class Islander_stocks:
 				break
 			except ValueError:
 				print("Please make a choice")
-		for i in self.data[self.key[0]]:
-			try:
-				data = Price(symbol=i)
-				data.driver()
-				if(data.current_price<=maximum and data.current_price>0 and data.current_percentage>0):
-					self.data[self.key[1]].append(data.current_price)
-					self.data[self.key[2]].append(i)
-					self.data[self.key[3]].append(data.current_percentage)
-					print(f"${data.current_price},{100*data.current_percentage}%,{i}")
-			except StockDoesNotExistError:
-				pass
+			thread = {}
+		for i in range(0,len(self.data[self.key[0]])//os.cpu_count(),os.cpu_count()):
+			for j in range(os.cpu_count()):
+				index = self.data[self.key[0]][j+i]
+				thread[str(j)] = Thread(target=self.speedy, args=(index,maximum))
+			for w in range(os.cpu_count()):
+				thread[str(w)].start()
+			for l in range(os.cpu_count()):
+				thread[str(l)].join()
 		self.data["price_and_symbol"] = list(zip(self.data[self.key[1]], self.data[self.key[2]]))
 		self.data["percentage_and_symbol"] = list(zip(self.data[self.key[3]], self.data[self.key[2]]))
 		self.key.append("price_and_symbol")
 		self.key.append("percentage_and_symbol")
-
+	def speedy(self,i,maximum):
+		try:
+			data = Price(symbol=i)
+			data.driver()
+			if (data.current_price <= maximum and data.current_price > 0 and data.current_percentage > 0):
+				self.data[self.key[1]].append(data.current_price)
+				self.data[self.key[2]].append(i)
+				self.data[self.key[3]].append(data.current_percentage)
+				print(f"${data.current_price},{100 * data.current_percentage}%,{i}")
+		except StockDoesNotExistError:
+			pass
