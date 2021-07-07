@@ -45,54 +45,56 @@ class LinkedList:
                 return True
             temp = temp.next
         return False
-    def insert(self,price,current_percentage,overall_percentage,symbol,index):
+
+    def insert(self, price: int, current_percentage: float, overall_percentage: float, symbol: str, index: int):
         if index == 0:
-            self.PushFront(price,current_percentage,overall_percentage,symbol)
+            self.PushFront(price=price, symbol=symbol, current_percentage=current_percentage,
+                           overall_percentage=overall_percentage)
             return
         if index >= self.size_:
-            self.PushBack(price,current_percentage,overall_percentage,symbol)
-            temp = self.head
-            curr_index = 0
-        while(curr_index != index-1):
+            self.PushBack(price=price, symbol=symbol, current_percentage=current_percentage,
+                          overall_percentage=overall_percentage)
+        temp: Node = self.head
+        curr_index = 0
+        while (curr_index != index - 1):
             temp = temp.next
-            curr_index+=1
-        new_node = Node(next = temp.next, price= price,current_percentage=current_percentage,overall_percentage=overall_percentage,symbol=symbol)
+            curr_index += 1
+        new_node: Node = Node(next=temp.next, price=price, symbol=symbol, current_percentage=current_percentage,
+                              overall_percentage=overall_percentage)
         temp.next = new_node
-        self.size_+=1
+        self.size_ += 1
 
     def delete(self, symbol):
-        current = self.head
-        previous = Node
-        if current.symbol==symbol:
-            previous=current
-            self.head = current.next
-            del previous
-            self.size_-=1
-        else:
-            while(current.symbol != symbol and current is None):
-                previous=current
-                current = current.next
+        current: Node = self.head
+        previouse: Node = None
 
-        if(current):
-            if current == self.tail:
-                previous.next = current.next
+        if (current.symbol == symbol):
+            previouse = current
+            self.head = current.next
+            del previouse
+            self.size_ = -1
+        else:
+            while (current.symbol != symbol and current is not None):
+                previouse = current
+                current = current.next
+        if (current):
+            if (current == self.tail):
+                self.tail = previouse
+            previouse.next = current.next
             del current
-        self.size_+=1
+            self.size_ -= 1
 
 if __name__ == "__main__":
     data = LinkedList()
-    data.PushFront(123,43, 56,"what")
+    data.PushFront(price=123, symbol="what", current_percentage=100, overall_percentage=20)
     data.PrintValues()
-    print("the new list is ")
-    data.PushBack(432,6543,6,"will")
+    data.PushBack(price=430, symbol="will", current_percentage=300, overall_percentage=432)
     data.PrintValues()
-    data.Dynamic(725, 635, 25, "you")
-    print("the new list is ")
+    data.Dynamic(price=200, symbol="you", current_percentage=54, overall_percentage=45)
     data.PrintValues()
-    data.insert(725,635,25,"do", 2)
-
-    print("the new list is ")
+    print("this is the new stuff")
+    data.insert(price=200, symbol="do", current_percentage=54, overall_percentage=45, index=2)
     data.PrintValues()
-    # data.delete("will ")
-    # print("the new list is ")
-    # data.PrintValues()
+    data.delete("do")
+    data.PrintValues()
+    print(data.contains("do"))
