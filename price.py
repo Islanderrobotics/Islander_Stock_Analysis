@@ -12,7 +12,9 @@ class Price:
     as well as the current percentage'''
     def __init__(self,symbol,maximum):
         try:
-            network = requests.get(f"https://finance.yahoo.com/quote/{symbol}/history")
+            headers={'User-Agent':'Mozilla/5.0'}
+
+            network = requests.get(f"https://finance.yahoo.com/quote/{symbol}/history",headers=headers)
         except:
             raise NetworkError()
         if network.status_code == 302:
