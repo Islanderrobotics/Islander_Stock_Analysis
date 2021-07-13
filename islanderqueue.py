@@ -28,20 +28,14 @@ class IslanderQueue(ll):
 
         temp:Node = self.head
         if (isinstance(self.head.data, dict) is False):
-            if self.head.data>index:
-                self.PushFront(index)
-                return
+
             while (temp is not None and temp.data < index):
                 temp = temp.next
         else:
             print("yes")
-            if self.head.data[key]>index[key]:
-                print("double yes")
-                self.PushFront(index)
-                return
-            else:
-                while (temp is not None and temp.data[key] < index[key]):
-                    temp = temp.next
+
+            while (temp is not None and temp.data[key] < index[key]):
+                temp = temp.next
         if (temp):
             new_node: Node = Node(next=temp.next, data=index)
             temp.next = new_node
