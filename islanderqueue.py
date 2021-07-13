@@ -10,7 +10,7 @@ class IslanderQueue(ll):
             return True
         return False
     def Push(self,data,key = None):
-        if (self.priority):
+        if (self.priority is True):
             self.Priority(index = data,key = key)
         else:
             self.Dynamic(data = data)
@@ -25,21 +25,29 @@ class IslanderQueue(ll):
         if self.sizeofLinkedList == 0:
             self.PushFront(index)
             return
+
         temp:Node = self.head
         if (isinstance(self.head.data, dict) is False):
-
+            if self.head.data>index:
+                self.PushFront(index)
+                return
             while (temp is not None and temp.data < index):
                 temp = temp.next
         else:
             print("yes")
-            while (temp is not None and temp.data[key] < index[key]):
-                temp = temp.next
+            if self.head.data[key]>index[key]:
+                print("double yes")
+                self.PushFront(index)
+                return
+            else:
+                while (temp is not None and temp.data[key] < index[key]):
+                    temp = temp.next
         if (temp):
             new_node: Node = Node(next=temp.next, data=index)
             temp.next = new_node
+            self.sizeofLinkedList+=1
         else:
             self.PushBack(data = index)
-        self.sizeofLinkedList += 1
 
 if __name__ == '__main__':
     data = IslanderQueue(priority= True)
