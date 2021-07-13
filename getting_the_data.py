@@ -9,16 +9,13 @@ class GettingTheData:
     def __init__(self, chosen_market):
         self.chosen_market = chosen_market
         self.data = {}
-        self.data[
-            "NASDAQ"] = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-FCxor8WIfRHo1ZonFWQ0Kg58PLPn05TPWDOMUaVAp9c27P3iho340L3OfHOaXtd31syD1OXkC1pK/pubhtml"
-        self.data[
-            "NYSE"] = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMh-By7UV0GHbQLzYe89xToVarHzn89md26E7flQOTOCoErJgCJge2FdeW2vPGSSnHWpC8K9Q8glwu/pubhtml"
-        self.data[
-            "AMEX"] = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRh_zI4r9HaDPtzGEonoGas7vVtJipTBS4AjmOz33syFYlqR_EQHiKn5DonOXf0PpqrwClSowvOifMR/pubhtml"
+        self.data["NASDAQ"] = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-FCxor8WIfRHo1ZonFWQ0Kg58PLPn05TPWDOMUaVAp9c27P3iho340L3OfHOaXtd31syD1OXkC1pK/pubhtml"
+        self.data["NYSE"] = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTMh-By7UV0GHbQLzYe89xToVarHzn89md26E7flQOTOCoErJgCJge2FdeW2vPGSSnHWpC8K9Q8glwu/pubhtml"
+        self.data["AMEX"] = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRh_zI4r9HaDPtzGEonoGas7vVtJipTBS4AjmOz33syFYlqR_EQHiKn5DonOXf0PpqrwClSowvOifMR/pubhtml"
 
     def download(self):
         '''this is where the download will happen'''
-        network = requests.get(self.data[self.chosen_market])
+        network = requests.get(self.data[self.chosen_market.upper()])
         soup = bs(network.content, "html5lib")
         data = []
         table = soup.find('table', attrs={'class': 'waffle'})
