@@ -54,19 +54,6 @@ class Islander_stocks:
 					thread[str(w)].start()
 				for l in range(os.cpu_count()):
 					thread[str(l)].join()
-			if (self.data["price"]):
-				next = True
-			else:
-				while (True):
-					try:
-						maximum = int(input("there where no stocks at that price please select another price"))
-						break
-					except ValueError:
-						print("Please make a choice")
-		self.data["price_and_symbol"] = list(zip(self.data[self.key[1]], self.data[self.key[2]]))
-		self.data["percentage_and_symbol"] = list(zip(self.data[self.key[3]], self.data[self.key[2]]))
-		self.key.append("price_and_symbol")
-		self.key.append("percentage_and_symbol")
 	def speedy(self, index,maximum):
 
 		try:
@@ -82,16 +69,36 @@ class Islander_stocks:
 		except StockDoesNotExistError:
 			pass
 	def top(self,key = "price"):
+		self.queue = IslanderQueue(priority=True)
+		# print(data.Empty())
+		# print(data.size())
+		# # data.Push(data = 128)
+		# data.Push(data=832)
+		# print(data.size())
+		# data.Push(data=123)
+		# print(data.size())
+		# data.Push(133)
+		# print(data.size())
+		# # print(data.Top())
+		# bob = data.head
+		# while (data.head is not None):
+		# 	print(data.head.data)
+		# 	data.head = data.head.next
+		# data.head = bob
+		temp = {}
+		for i in range(len(self.data["symbols"])):
+			for j in self.key:
+				temp[j] = self.data[j][i]
 
-		self.queue = IslanderQueue()
-		length = self.data[key]
-		for i  in range(len(length)):
-			print(self.data[key][i])
-		# for  i in temp.keys():
-		# 	print(temp[i])
-		# 	self.queue.Push(data = temp, key = key)
-		# bob = self.queue.head
-		# while (self.queue.head is not None):
-		# 	print(self.queue.head.data)
-		# 	self.queue.head = self.queue.head.next
-		# self.queue.head = bob
+			print(temp)
+			self.queue.Push(data=temp,key=key)
+		# 	bob = self.queue.head
+		# 	while (self.queue.head is not None):
+		# 		print(self.queue.head.data)
+		# 		self.queue.head = self.queue.head.next
+		# 	self.queue.head = bob
+		bob = self.queue.head
+		while (bob is not None):
+			print(bob.data)
+			bob = bob.next
+		self.queue.head = bob

@@ -42,15 +42,15 @@ class IslanderQueue(ll):
         self.sizeofLinkedList += 1
 
 if __name__ == '__main__':
-    data = Queue(priority= True)
+    data = IslanderQueue(priority= True)
     print(data.Empty())
     print(data.size())
     # data.Push(data = 128)
-    data.Push(data={"price": 832, "symbol": "what", "Percentage": 43},key = "price")
+    data.Push(data=0.832)
     print(data.size())
-    data.Push(data={"price": 123, "symbol": "will", "current_percentage": 100, "overall_percentage": 20},key = "price")
+    data.Push(data=0.123)
     print(data.size())
-    data.Push(data={"price": 133, "symbol": "you", "current_percentage": 100, "overall_percentage": 20},key = "price")
+    data.Push(0.133)
     print(data.size())
     # print(data.Top())
     bob = data.head
