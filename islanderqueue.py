@@ -1,6 +1,6 @@
 from linkedlist import LinkedList as ll
 
-class Queue:
+class IslanderQueue:
     def __init__(self):
         self.queue = ll()
     def Empty(self):
