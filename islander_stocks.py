@@ -41,19 +41,17 @@ class Islander_stocks:
 				break
 			except ValueError:
 				print("Please make a choice")
+		thread = {}
+		for i in range(0,len(self.data[self.key[0]])//os.cpu_count(), os.cpu_count()):
+			for j in range(os.cpu_count()):
 
-		while (next is False):
+				index = self.data[self.key[0]][i+j]
+				thread[str(j)] = threading.Thread(target=self.speedy, args=(index,maximum,))
+			for w in range(os.cpu_count()):
+				thread[str(w)].start()
+			for l in range(os.cpu_count()):
+				thread[str(l)].join()
 
-			thread = {}
-			for i in range(0,len(self.data[self.key[0]])//os.cpu_count(), os.cpu_count()):
-				for j in range(os.cpu_count()):
-
-					index = self.data[self.key[0]][i+j]
-					thread[str(j)] = threading.Thread(target=self.speedy, args=(index,maximum,))
-				for w in range(os.cpu_count()):
-					thread[str(w)].start()
-				for l in range(os.cpu_count()):
-					thread[str(l)].join()
 	def speedy(self, index,maximum):
 
 		try:
@@ -69,7 +67,7 @@ class Islander_stocks:
 		except StockDoesNotExistError:
 			pass
 	def top(self,key = "price"):
-		self.queue = IslanderQueue(priority=True)
+		self.queue = IslanderQueue(priority= True)
 		# print(data.Empty())
 		# print(data.size())
 		# # data.Push(data = 128)
@@ -85,13 +83,15 @@ class Islander_stocks:
 		# 	print(data.head.data)
 		# 	data.head = data.head.next
 		# data.head = bob
-		temp = {}
-		for i in range(len(self.data["symbols"])):
-			for j in self.key:
-				temp[j] = self.data[j][i]
 
-			print(temp)
+		templist = []
+		for i in range(len(self.data["symbols"])):
+			temp = {}
+			for j in range(1,len(self.key)):
+				temp[j] = self.data[self.key[j]][i]
+			# print(temp)
 			self.queue.Push(data=temp,key=key)
+			del temp
 		# 	bob = self.queue.head
 		# 	while (self.queue.head is not None):
 		# 		print(self.queue.head.data)
