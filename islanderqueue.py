@@ -1,53 +1,64 @@
 import linkedlist
 from linkedlist import LinkedList as ll
-from Heap import Heap
 from linkedlist import Node
-class IslanderQueue(ll,Heap):
+class IslanderQueue(ll):
     def __init__(self, priority = False):
         ll.__init__(self)
-        Heap.__init__(self)
         self.priority = priority
-        self.count = 0
     def Empty(self):
         if self.size() == 0:
             return True
         return False
-    def Size(self):
-        # if (self.priority):
-        #     return self._Size(self.root)
-        # else:
-            return self.size()
     def Push(self,data,key = None):
-        if (self.priority is True):
-            self.count += 1
-            self.Insert(data,key = key)
+        if (self.priority):
+            self.Priority(index = data,key = key)
         else:
             self.Dynamic(data = data)
-    def Top(self):
-        if (self.priority is True):
-            return self.root
+    def Top(self, pop=False):
+        data = self.head.data
+        if (pop is True):
+            self.head = self.head.next
+        return data
+    def Pop(self):
+        self.head =self.head.next
+    def Priority(self, index, key=None):
+        if self.sizeofLinkedList == 0:
+            self.PushFront(index)
+            return
+        temp:Node = self.head
+        if (isinstance(self.head.data, dict) is False):
+
+            while (temp is not None and temp.data < index):
+                temp = temp.next
         else:
-            return self.head.data
-    def Pop(self,key = None):
-        if self.priority is True:
-            self.RemoveMax(key = key)
+            print("yes")
+            while (temp is not None and temp.data[key] < index[key]):
+                temp = temp.next
+        if (temp):
+            new_node: Node = Node(next=temp.next, data=index)
+            temp.next = new_node
         else:
-            self.head =self.head.next
+            self.PushBack(data = index)
+        self.sizeofLinkedList += 1
+
 if __name__ == '__main__':
     data = IslanderQueue(priority= True)
-    data.Push(data={"price":543, "current":"what"},key = "price")
-    data.Push(data={"price":0.14, "current":"will"},key = "price")
-    print(data._Size(data.root))
-    data.Push(data = {"price":0.133,"current":"you"},key = "price")
-    data.Heapify(key="price")
-    while (data.root is not None):
-        data.Dynamic(data.root.data)
-        if (data.root.left is not None or data.root.right is not None):
-            data.RemoveMax(key="price")
-        if (data.root.left is None and data.root.right is None):
-            data.Dynamic(data.root.data)
-            break
-
-    while(data.head is not None):
+    print(data.Empty())
+    print(data.size())
+    # data.Push(data = 128)
+    data.Push(data=0.832)
+    print(data.size())
+    data.Push(data=0.123)
+    print(data.size())
+    data.Push(0.133)
+    print(data.size())
+    # print(data.Top())
+    bob = data.head
+    while (data.head is not None):
         print(data.head.data)
         data.head = data.head.next
+    data.head = bob
+    # data.Pop()
+    # while (data.head is not None):
+    #     print(data.head.data)
+    #     data.head = data.head.next

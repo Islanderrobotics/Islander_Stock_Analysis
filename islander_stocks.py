@@ -31,11 +31,9 @@ class Islander_stocks:
 		self.data["price"] = []
 		self.data["symbols"] = []
 		self.data["percentage"] = []
-		self.data["overall_percentage"] = []
 		self.key.append("price")
 		self.key.append("symbols")
 		self.key.append("percentage")
-		self.key.append("overall_percentage")
 		next = False
 		while (True):
 			try:
@@ -43,17 +41,19 @@ class Islander_stocks:
 				break
 			except ValueError:
 				print("Please make a choice")
-		thread = {}
-		for i in range(0,len(self.data[self.key[0]])//os.cpu_count(), os.cpu_count()):
-			for j in range(os.cpu_count()):
 
-				index = self.data[self.key[0]][i+j]
-				thread[str(j)] = threading.Thread(target=self.speedy, args=(index,maximum,))
-			for w in range(os.cpu_count()):
-				thread[str(w)].start()
-			for l in range(os.cpu_count()):
-				thread[str(l)].join()
+		while (next is False):
 
+			thread = {}
+			for i in range(0,len(self.data[self.key[0]])//os.cpu_count(), os.cpu_count()):
+				for j in range(os.cpu_count()):
+
+					index = self.data[self.key[0]][i+j]
+					thread[str(j)] = threading.Thread(target=self.speedy, args=(index,maximum,))
+				for w in range(os.cpu_count()):
+					thread[str(w)].start()
+				for l in range(os.cpu_count()):
+					thread[str(l)].join()
 	def speedy(self, index,maximum):
 
 		try:
@@ -61,47 +61,44 @@ class Islander_stocks:
 			data = Price(symbol=index,maximum = maximum)
 			data.driver()
 
-			if (data.current_price <= maximum and data.current_price > 0 and data.current_percentage > 0 or maximum ==0):
+			if (data.current_price <= maximum and data.current_price > 0 and data.current_percentage > 0):
 				self.data[self.key[1]].append(data.current_price)
 				self.data[self.key[2]].append(index)
 				self.data[self.key[3]].append(data.current_percentage)
-				self.data[self.key[4]].append(data.total_percentage)
 				print(f"${data.current_price},{100 * data.current_percentage}%,{index}")
 		except StockDoesNotExistError:
 			pass
-	def top(self,key ="price"):
-		self.queue = IslanderQueue(priority= True)
+	def top(self,key = "price"):
+		self.queue = IslanderQueue(priority=True)
+		# print(data.Empty())
+		# print(data.size())
+		# # data.Push(data = 128)
+		# data.Push(data=832)
+		# print(data.size())
+		# data.Push(data=123)
+		# print(data.size())
+		# data.Push(133)
+		# print(data.size())
+		# # print(data.Top())
+		# bob = data.head
+		# while (data.head is not None):
+		# 	print(data.head.data)
+		# 	data.head = data.head.next
+		# data.head = bob
+		temp = {}
 		for i in range(len(self.data["symbols"])):
-			temp = {}
-			for j in range(1,len(self.key)):
-				# print(self.data[self.key[j]][i])
-				temp[self.key[j]] = self.data[self.key[j]][i]
-			self.queue.Push(data=temp,key=key)
-			del temp
-		self.queue.Heapify(key = key)
-		# print(self.queue._Size(self.queue.root))
-		# self.queue.PreOrder()
-	def GetTop(self,topValue = None, key = "price"):
-		self.data["sorted"] = []
-		self.key.append("sorted")
+			for j in self.key:
+				temp[j] = self.data[j][i]
 
-		while (True):
-			try:
-				# print(self.queue.root.data)
-				self.data["sorted"].append(self.queue.root.data)
-				self.queue.RemoveMax(key = key)
-			except AttributeError:
-				break
-		# print(len(self.data["sorted"]))
-		if (topValue is None):
-			topValue = len(self.data["sorted"])
-		for i in self.data["sorted"]:
-			print(i)
-			topValue-=1
-			if (topValue == 0):
-				break
-		# print(self.data["sorted"][0])
-		# print(self.data["sorted"][1])
-		# print(self.data["sorted"][2])
-		# print(self.data["sorted"][3])
-		# print(self.data["sorted"][4])
+			print(temp)
+			self.queue.Push(data=temp,key=key)
+		# 	bob = self.queue.head
+		# 	while (self.queue.head is not None):
+		# 		print(self.queue.head.data)
+		# 		self.queue.head = self.queue.head.next
+		# 	self.queue.head = bob
+		bob = self.queue.head
+		while (bob is not None):
+			print(bob.data)
+			bob = bob.next
+		self.queue.head = bob
