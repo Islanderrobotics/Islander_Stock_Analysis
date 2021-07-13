@@ -66,39 +66,12 @@ class Islander_stocks:
 				print(f"${data.current_price},{100 * data.current_percentage}%,{index}")
 		except StockDoesNotExistError:
 			pass
-	def top(self,key = "price"):
+	def top(self,key ="price"):
 		self.queue = IslanderQueue(priority= True)
-		# print(data.Empty())
-		# print(data.size())
-		# # data.Push(data = 128)
-		# data.Push(data=832)
-		# print(data.size())
-		# data.Push(data=123)
-		# print(data.size())
-		# data.Push(133)
-		# print(data.size())
-		# # print(data.Top())
-		# bob = data.head
-		# while (data.head is not None):
-		# 	print(data.head.data)
-		# 	data.head = data.head.next
-		# data.head = bob
-
-		templist = []
 		for i in range(len(self.data["symbols"])):
 			temp = {}
 			for j in range(1,len(self.key)):
-				temp[j] = self.data[self.key[j]][i]
-			# print(temp)
+				temp[self.key[j]] = self.data[self.key[j]][i]
 			self.queue.Push(data=temp,key=key)
 			del temp
-		# 	bob = self.queue.head
-		# 	while (self.queue.head is not None):
-		# 		print(self.queue.head.data)
-		# 		self.queue.head = self.queue.head.next
-		# 	self.queue.head = bob
-		bob = self.queue.head
-		while (bob is not None):
-			print(bob.data)
-			bob = bob.next
 		self.queue.head = bob
