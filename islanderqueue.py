@@ -1,9 +1,11 @@
 import linkedlist
 from linkedlist import LinkedList as ll
+from Heap import Heap
 from linkedlist import Node
-class IslanderQueue(ll):
+class IslanderQueue(ll,Heap):
     def __init__(self, priority = False):
         ll.__init__(self)
+        Heap.__init__(self)
         self.priority = priority
     def Empty(self):
         if self.size() == 0:
@@ -11,56 +13,25 @@ class IslanderQueue(ll):
         return False
     def Push(self,data,key = None):
         if (self.priority is True):
-            self.Priority(index = data,key = key)
+            self.Insert(data,key = key)
         else:
             self.Dynamic(data = data)
-    def Top(self, pop=False):
-        data = self.head.data
-        if (pop is True):
-            self.head = self.head.next
-        return data
+    def Top(self):
+        if (self.priority is True):
+            return self.root
+        else:
+            return self.head.data
     def Pop(self):
-        self.head =self.head.next
-    def Priority(self, index, key=None):
-        if self.sizeofLinkedList == 0:
-            self.PushFront(index)
-            return
-
-        temp:Node = self.head
-        if (isinstance(self.head.data, dict) is False):
-
-            while (temp is not None and temp.data < index):
-                temp = temp.next
+        if self.priority is True:
+            self.RemoveMax()
         else:
-            print("yes")
-
-            while (temp is not None and temp.data[key] < index[key]):
-                temp = temp.next
-        if (temp):
-            new_node: Node = Node(next=temp.next, data=index)
-            temp.next = new_node
-            self.sizeofLinkedList+=1
-        else:
-            self.PushBack(data = index)
-
+            self.head =self.head.next
 if __name__ == '__main__':
     data = IslanderQueue(priority= True)
-    print(data.Empty())
-    print(data.size())
-    # data.Push(data = 128)
-    data.Push(data=0.832)
-    print(data.size())
-    data.Push(data=0.123)
-    print(data.size())
-    data.Push(0.133)
-    print(data.size())
+    data.Push(data={"price":543, "current":"what"},key = "price")
+    data.Push(data={"price":0.14, "current":"will"},key = "price")
+    print(data._Size(data.root))
+    data.Push(data = {"price":0.133,"current":"you"},key = "price")
+    # print(data.size())
     # print(data.Top())
-    bob = data.head
-    while (data.head is not None):
-        print(data.head.data)
-        data.head = data.head.next
-    data.head = bob
-    # data.Pop()
-    # while (data.head is not None):
-    #     print(data.head.data)
-    #     data.head = data.head.next
+    data.PreOrder()
