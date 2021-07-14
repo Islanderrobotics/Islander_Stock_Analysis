@@ -31,9 +31,11 @@ class Islander_stocks:
 		self.data["price"] = []
 		self.data["symbols"] = []
 		self.data["percentage"] = []
+		self.data["overall_percentage"] = []
 		self.key.append("price")
 		self.key.append("symbols")
 		self.key.append("percentage")
+		self.key.append("overall_percentage")
 		next = False
 		while (True):
 			try:
@@ -59,10 +61,11 @@ class Islander_stocks:
 			data = Price(symbol=index,maximum = maximum)
 			data.driver()
 
-			if (data.current_price <= maximum and data.current_price > 0 and data.current_percentage > 0):
+			if (data.current_price <= maximum and data.current_price > 0 and data.current_percentage > 0 or maximum ==0):
 				self.data[self.key[1]].append(data.current_price)
 				self.data[self.key[2]].append(index)
 				self.data[self.key[3]].append(data.current_percentage)
+				self.data[self.key[4]].append(data.total_percentage)
 				print(f"${data.current_price},{100 * data.current_percentage}%,{index}")
 		except StockDoesNotExistError:
 			pass
@@ -75,4 +78,18 @@ class Islander_stocks:
 			self.queue.Push(data=temp,key=key)
 			del temp
 		self.queue.Heapify(key = key)
-		self.queue.PreOrder()
+		while (self.queue.root is not None):
+			self.queue.Dynamic(self.queue.root.data)
+			if (self.queue.root.left is not None or self.queue.root.right is not None):
+				self.queue.RemoveMax(key="price")
+			if (self.queue.root.left is None and self.queue.root.right is None):
+				self.queue.Dynamic(self.queue.root.data)
+				break
+	def GetTop(self, topValue):
+		# topValue = 3
+		temp = self.queue.head
+		while (self.queue.head is not None and topValue+1!=0):
+			print(self.queue.head.data)
+			self.queue.head = self.queue.head.next
+			topValue-=1
+		self.queue.head = temp

@@ -1,7 +1,5 @@
-if __name__ == "__main__":
-    data = Price(symbol = "AACG", maximum = 10)
-    data.Price()
-    print(data.current_price)
+
+
 import requests
 from bs4 import BeautifulSoup as bs
 
@@ -34,11 +32,11 @@ class Price:
         self.symbol = symbol
         # print(symbol)
         self.maximum = maximum
-        self.general = self.soup.find('div', attrs={"data-reactid": "48"})
+
     def Price(self):
         '''the purpose of this method is to get the current price'''
         try:
-            price = self.general.find('span', attrs={"data-reactid":"49"}).text
+            price = self.soup.find('span', attrs={"data-reactid":"50"}).text
             self.current_price = float(price.split(" ")[0].replace(",","").replace("(","")
                                        .replace(")","")
                                        .replace("%",""))
@@ -46,15 +44,17 @@ class Price:
         except AttributeError as error:
             raise StockDoesNotExistError(self.symbol) from error
         try:
-            price = self.general.find('span', attrs={"data-reactid":"46"}).text
-            self.current_price = float(price.split(" ")[0].replace(",","").replace("(","")
+            price = self.soup.find('span', attrs={"data-reactid":"46"}).text
+            self.current_price = float(price.split(" ")[0]
+                                       .replace(",","")
+                                       .replace("(","")
                                        .replace(")","")
                                        .replace("%",""))
             return
         except AttributeError as error:
             raise StockDoesNotExistError(self.symbol) from error
         try:
-            price = self.general.find('span', attrs={"data-reactid":"46.69"}).text
+            price = self.soup.find('span', attrs={"data-reactid":"46.69"}).text
             self.current_price = float(price.split(" ")[0]
                                        .replace(",","")
                                        .replace("(","")
@@ -66,7 +66,7 @@ class Price:
     def percentage(self):
         '''this method will allow the user to view the current stock percentage'''
         try:
-            percentage = self.general.find('span', attrs={"data-reactid": "50"}).text
+            percentage = self.soup.find('span', attrs={"data-reactid": "51"}).text
             self.current_percentage = float(percentage.split(" ")[0]
                                             .replace(",", "")
                                             .replace("(", "")
@@ -83,7 +83,7 @@ class Price:
         except AttributeError as error:
             raise StockDoesNotExistError(self.symbol) from error
         try:
-            percentage = self.general.find('span', attrs={"data-reactid": "47"}).text
+            percentage = self.soup.find('span', attrs={"data-reactid": "47"}).text
             self.current_percentage = float(percentage.split(" ")[0]
                                             .replace(",", "")
                                             .replace("(", "")
@@ -105,5 +105,5 @@ class Price:
         self.percentage()
 if __name__ == "__main__":
     data = Price(symbol = "AACG", maximum = 10)
-    data.driver()
+    data.Price()
     print(data.current_price)
