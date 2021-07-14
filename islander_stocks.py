@@ -78,18 +78,19 @@ class Islander_stocks:
 			self.queue.Push(data=temp,key=key)
 			del temp
 		self.queue.Heapify(key = key)
-		while (self.queue.root is not None):
-			self.queue.Dynamic(self.queue.root.data)
-			if (self.queue.root.left is not None or self.queue.root.right is not None):
-				self.queue.RemoveMax(key="price")
-			if (self.queue.root.left is None and self.queue.root.right is None):
+		while True:
+			try:
 				self.queue.Dynamic(self.queue.root.data)
+				self.queue.RemoveMax(key="price")
+			except AttributeError:
 				break
-	def GetTop(self, topValue):
+	def GetTop(self,topValue):
 		# topValue = 3
 		temp = self.queue.head
-		while (self.queue.head is not None and topValue+1!=0):
+		while (self.queue.head is not None):
 			print(self.queue.head.data)
 			self.queue.head = self.queue.head.next
 			topValue-=1
+			if (topValue ==0):
+				break
 		self.queue.head = temp

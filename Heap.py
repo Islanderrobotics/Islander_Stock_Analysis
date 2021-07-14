@@ -137,9 +137,7 @@ class Heap(object):
         if root is None:
             return None
         if (root.left is not None):
-            print("max left")
             if (root.left.data[key]>root.data[key]):
-                print("max left 1")
                 temp_left = root.left.left
                 temp_right = root.left.right
                 root.left.right = root.right
@@ -185,7 +183,7 @@ class Heap(object):
         return self._FindLast(root.right,2*index+2,node_count)
     def _RemoveLast(self, root):
         last_node = self._FindLast(self.root,0,self._Size(self.root))
-        root.data = last_node.data
+        root = last_node
         del last_node
     def _DeleteElement(self,data,root):
         if (root is None):
@@ -259,10 +257,11 @@ class Heap(object):
         return self._IsComplete(self.root,0, self._Size(self.root))
     def RemoveMax(self, key = None):
         self._RemoveMax(self.root)
-        if (self.dictionary):
-            self.root = self._MaxHeapifyDict(self.root,key = key)
-        else:
-            self.root = self._MaxHeapify(self.root)
+        if (self.root):
+            if (self.dictionary):
+                self.root = self._MaxHeapifyDict(self.root,key = key)
+            else:
+                self.root = self._MaxHeapify(self.root)
     def DeleteElement(self,data,key = None):
         if (self.dictionary):
             self._DeleteElementDict(data=data)
@@ -291,14 +290,13 @@ if __name__ == "__main__":
     # data.Insert(8);
     # data.PreOrder()
     # print(data.FindLast())
-    data.Heapify(key = "price")
-    while(data.root is not None):
-        print(data.root.data)
-        if (data.root.left is not None or data.root.right is not None):
-            data.RemoveMax(key = "price")
-        if (data.root.left is None and  data.root.right is None):
+    while True:
+        try:
             print(data.root.data)
+            data.RemoveMax(key="price")
+        except AttributeError:
             break
+
     # data.PostOrder()
     # # print(data.Height())
     # print(data.IsComplete())
