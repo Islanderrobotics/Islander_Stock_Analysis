@@ -36,7 +36,7 @@ class Price:
     def Price(self):
         '''the purpose of this method is to get the current price'''
         try:
-            price = self.soup.find('span', attrs={"data-reactid":"50"}).text
+            price = self.soup.find('span', attrs={"data-reactid":"49"}).text
             self.current_price = float(price.split(" ")[0].replace(",","").replace("(","")
                                        .replace(")","")
                                        .replace("%",""))
@@ -66,7 +66,7 @@ class Price:
     def percentage(self):
         '''this method will allow the user to view the current stock percentage'''
         try:
-            percentage = self.soup.find('span', attrs={"data-reactid": "51"}).text
+            percentage = self.soup.find('span', attrs={"data-reactid": "50"}).text
             self.current_percentage = float(percentage.split(" ")[0]
                                             .replace(",", "")
                                             .replace("(", "")
@@ -105,5 +105,5 @@ class Price:
         self.percentage()
 if __name__ == "__main__":
     data = Price(symbol = "AACG", maximum = 10)
-    data.Price()
+    data.driver()
     print(data.current_price)
