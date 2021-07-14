@@ -74,4 +74,5 @@ class Islander_stocks:
 				temp[self.key[j]] = self.data[self.key[j]][i]
 			self.queue.Push(data=temp,key=key)
 			del temp
-		self.queue.head = bob
+		self.queue.Heapify(key = key)
+		self.queue.PreOrder()

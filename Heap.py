@@ -1,7 +1,7 @@
+import temporary as temporary
 
 
-
-class HeapNode(object):
+class HeapNode:
     '''due to the way that heaps work we will need a new Node class'''
     def __init__(self, data=None):
         self.data = data
@@ -9,7 +9,7 @@ class HeapNode(object):
         self.left = None
 
 
-class Heap(object):
+class Heap:
     '''this is where we will build and actual heap'''
     def __init__(self,dictionary =False):
         self.root = None
@@ -23,7 +23,7 @@ class Heap(object):
             root.data = data
             data  = temp
 
-        if(self._IsFull(root) and self._Size(root.left) == self._Size(root.right) or self._IsFull(root.left) is False):
+        if(self._IsFull(root) and self._Size(root) == self._Size(root) or self._IsFull(root.left) is False):
             root.left = self._Insert(data,root.left)
         else:
             root.right = self._Insert(data,root.right)
@@ -36,7 +36,7 @@ class Heap(object):
             root.data = data
             data  = temp
 
-        if(self._IsFull(root) and self._Size(root.left) == self._Size(root.right) or self._IsFull(root.left) is False):
+        if(self._IsFull(root) and self._Size(root) == self._Size(root) or self._IsFull(root.left) is False):
             root.left = self._InsertDict(data,root.left,key)
         else:
             root.right = self._InsertDict(data,root.right,key)
@@ -104,9 +104,9 @@ class Heap(object):
         if root is None:
             return None
         if (root.left is not None):
-            # print("max_left")
+            print("max_left")
             if (root.left.data>root.data):
-                # print("max left _1")
+                print("max left _1")
                 temp_left = root.left.left
                 temp_right = root.left.right
                 root.left.right = root.right
@@ -137,7 +137,9 @@ class Heap(object):
         if root is None:
             return None
         if (root.left is not None):
+            print("max left")
             if (root.left.data[key]>root.data[key]):
+                print("max left 1")
                 temp_left = root.left.left
                 temp_right = root.left.right
                 root.left.right = root.right
@@ -151,6 +153,7 @@ class Heap(object):
         if (root.right is not None):
 
             if (root.right.data[key]>root.data[key]):
+                print("max_right")
                 temp_left = root.right.left
                 temp_right = root.right.right
 
@@ -182,7 +185,7 @@ class Heap(object):
         return self._FindLast(root.right,2*index+2,node_count)
     def _RemoveLast(self, root):
         last_node = self._FindLast(self.root,0,self._Size(self.root))
-        root = last_node
+        root.data = last_node.data
         del last_node
     def _DeleteElement(self,data,root):
         if (root is None):
@@ -206,10 +209,8 @@ class Heap(object):
         self._DeleteElementDict(data,root.right,key)
     def _RemoveMax(self,root):
         last_node = self._FindLast(self.root,0,self._Size(self.root))
-        self.top = root.data
         root.data = last_node.data
         del last_node
-
     def _PreOrder(self,root):
         if (root is None):
             return
@@ -232,11 +233,11 @@ class Heap(object):
     def DeleteQueue(self):
         self._Delete(self.root)
     def Insert(self,data,key = None):
-        if (isinstance(data,dict)):
+        self.dictionary = isinstance(data,dict)
+        if (self.dictionary):
             self.root = self._InsertDict(data, self.root,key)
         else:
             self.root = self._Insert(data,self.root)
-        self.dictionary = isinstance(data,dict)
     def Height(self):
         return self._Height(self.root)
     def PreOrder(self):
@@ -254,13 +255,9 @@ class Heap(object):
         return self._IsFull(self.root)
     def IsComplete(self):
         return self._IsComplete(self.root,0, self._Size(self.root))
-    def RemoveMax(self, key = None):
+    def RemoveMax(self):
         self._RemoveMax(self.root)
-        if (self.root):
-            if (self.dictionary):
-                self.root = self._MaxHeapifyDict(self.root,key = key)
-            else:
-                self.root = self._MaxHeapify(self.root)
+        self.root = self._MaxHeapify(self.root)
     def DeleteElement(self,data,key = None):
         if (self.dictionary):
             self._DeleteElementDict(data=data)
@@ -276,34 +273,24 @@ class Heap(object):
             self._MaxHeapify(root = self.root)
 if __name__ == "__main__":
     data = Heap()
-    data.Insert({'price': 9.73, 'symbols': 'ADRA', 'percentage': 0.12},key = "price")
-    data.Insert({'price': 7.57, 'symbols': 'APT', 'percentage': 0.49},key = "price")
-    data.Insert({'price': 4.0, 'symbols': 'BTG', 'percentage': 0.05},key = "price")
-    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key = "price")
-    # data.Insert(5);
-    # data.Insert(3);
-    # data.Insert(7);
-    # data.Insert(2);
-    # data.Insert(4);
-    # data.Insert(6);
-    # data.Insert(8);
-    # data.PreOrder()
-    # print(data.FindLast())
-    while True:
-        try:
-            print(data.root.data)
-            data.RemoveMax(key="price")
-        except AttributeError:
-            break
-
-    # data.PostOrder()
-    # # print(data.Height())
-    # print(data.IsComplete())
-    # # print(data.Search(101, key = "price"))
-    # print(data.IsFull())
+    # data.Insert({'price': 9.73, 'symbols': 'ADRA', 'percentage': 0.12},key = "price")
+    # data.Insert({'price': 7.57, 'symbols': 'APT', 'percentage': 0.49},key = "price")
+    # data.Insert({'price': 4.0, 'symbols': 'BTG', 'percentage': 0.05},key = "price")
+    # data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key = "price")
+    data.Insert(9.73)
+    data.Insert(7.57)
+    data.Insert(2.22)
+    data.Insert(4.0)
+    # data.Insert(100)
+    data.PreOrder()
+    data.Heapify(key = "price")
+    data.PreOrder()
+    # print(data.Height())
+    print(data.IsComplete())
+    # print(data.Search(101, key = "price"))
+    print(data.IsFull())
     # data.RemoveMax()
-    # data.RemoveMax()
-    # # data.DeleteElement(8)
-    # data.PostOrder()
-    # # {'price': 4.0, 'symbols': 'BTG', 'percentage': 0.05}
-    # # {'price': 4.1, 'symbols': 'AWX', 'percentage': 0.09}
+    # data.DeleteElement(8)
+    # # data.PostOrder()
+    # {'price': 4.0, 'symbols': 'BTG', 'percentage': 0.05}
+    # {'price': 4.61, 'symbols': 'AWX', 'percentage': 0.09}
