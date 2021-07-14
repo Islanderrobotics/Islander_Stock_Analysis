@@ -29,6 +29,7 @@ class Price:
         # print(symbol)
         self.maximum = maximum
 
+
     def Price(self):
         '''the purpose of this method is to get the current price'''
         try:

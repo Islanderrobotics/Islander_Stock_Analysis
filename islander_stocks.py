@@ -64,3 +64,7 @@ class Islander_stocks:
 				print(f"${data.current_price},{100 * data.current_percentage}%,{index}")
 		except StockDoesNotExistError:
 			pass
+if __name__ == "__main__":
+    data = Price(symbol = "AACG", maximum = 10)
+    data.driver()
+    print(data.current_price)
