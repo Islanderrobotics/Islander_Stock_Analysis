@@ -1,7 +1,7 @@
-import temporary as temporary
 
 
-class HeapNode:
+
+class HeapNode(object):
     '''due to the way that heaps work we will need a new Node class'''
     def __init__(self, data=None):
         self.data = data
@@ -9,7 +9,7 @@ class HeapNode:
         self.left = None
 
 
-class Heap:
+class Heap(object):
     '''this is where we will build and actual heap'''
     def __init__(self,dictionary =False):
         self.root = None
