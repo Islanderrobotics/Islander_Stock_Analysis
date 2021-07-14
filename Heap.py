@@ -23,7 +23,7 @@ class Heap:
             root.data = data
             data  = temp
 
-        if(self._IsFull(root) and self._Size(root) == self._Size(root) or self._IsFull(root.left) is False):
+        if(self._IsFull(root) and self._Size(root.left) == self._Size(root.right) or self._IsFull(root.left) is False):
             root.left = self._Insert(data,root.left)
         else:
             root.right = self._Insert(data,root.right)
@@ -36,7 +36,7 @@ class Heap:
             root.data = data
             data  = temp
 
-        if(self._IsFull(root) and self._Size(root) == self._Size(root) or self._IsFull(root.left) is False):
+        if(self._IsFull(root) and self._Size(root.left) == self._Size(root.right) or self._IsFull(root.left) is False):
             root.left = self._InsertDict(data,root.left,key)
         else:
             root.right = self._InsertDict(data,root.right,key)
