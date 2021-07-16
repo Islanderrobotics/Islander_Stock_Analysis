@@ -43,6 +43,7 @@ class LinkedList:
         size = 0
         while (self.head is not None):
             if (isinstance(self.head.data, dict) is False):
+                print("yes")
                 print(f"{self.head.data}")
             else:
                 print(f"{self.head.data}")
@@ -123,13 +124,11 @@ class LinkedList:
             self.deleteReg(data)
         else:
             self.deletedict(key=key, data=data)
-
-
 if __name__ == "__main__":
     data = LinkedList()
     data.PushFront(data={"price": 123, "current percentage": 43})
     data.PushFront(data={"price": 89, "current percentage": 79})
     data.PushBack(data={"price": 54, "current percentage": 89})
-    data.Dynamic(data={"price": 874, "current": 42})
-    data.delete(data=89, dict=True, key="current percentage")
+    data.Priority(index={"price": 874, "current": 42},key = "price")
+    # data.delete(data=89, dict=True, key="current percentage")
     data.printValues()

@@ -1,3 +1,5 @@
+
+
 import requests
 from bs4 import BeautifulSoup as bs
 
@@ -12,13 +14,15 @@ class Price:
     as well as the current percentage'''
     def __init__(self,symbol,maximum):
         try:
-            network = requests.get(f"https://finance.yahoo.com/quote/{symbol}/history")
+            headers={'User-Agent':'Mozilla/5.0'}
+
+            network = requests.get(f"https://finance.yahoo.com/quote/{symbol}/history",headers=headers)
         except:
             raise NetworkError()
-        if network.status_code == 302:
+        if network.status_code == 302 or network.status_code == 404:
             raise StockDoesNotExistError(symbol)
 
-        self.soup = bs(network.content, 'html5lib')
+        self.soup = bs(network.content, "html.parser")
         if self.soup.find("span",attrs={"data-reactid":"32"}) is not None:
             if self.soup.find("span",attrs={"data-reactid":"32"}).text == f"No results for '{symbol.lower()}'":
                 raise StockDoesNotExistError(symbol)
@@ -34,9 +38,7 @@ class Price:
         '''the purpose of this method is to get the current price'''
         try:
             price = self.soup.find('span', attrs={"data-reactid":"50"}).text
-            self.current_price = float(price.split(" ")[0]
-                                       .replace(",","")
-                                       .replace("(","")
+            self.current_price = float(price.split(" ")[0].replace(",","").replace("(","")
                                        .replace(")","")
                                        .replace("%",""))
             return
@@ -100,8 +102,9 @@ class Price:
             raise StockDoesNotExistError(self.symbol) from error
     def driver(self):
         '''this will make it so the class can be automated'''
-
         self.Price()
         self.percentage()
-
-
+if __name__ == "__main__":
+    data = Price(symbol = "AACG", maximum = 10)
+    data.Price()
+    print(data.current_price)
