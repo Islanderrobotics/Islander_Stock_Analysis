@@ -92,16 +92,16 @@ class Islander_stocks:
 				self.queue.RemoveMax(key = key)
 			except AttributeError:
 				break
-		print(len(self.data["sorted"]))
-		# if (topValue is None):
-		# 	topValue = len(self.data["sorted"])
-		# for i in self.data["sorted"]:
-		# 	print(i)
-		# 	topValue-=1
-		# 	if (topValue == 0):
-		# 		break
-		print(self.data["sorted"][0])
-		print(self.data["sorted"][1])
-		print(self.data["sorted"][2])
-		print(self.data["sorted"][3])
-		print(self.data["sorted"][4])
+		# print(len(self.data["sorted"]))
+		if (topValue is None):
+			topValue = len(self.data["sorted"])
+		for i in self.data["sorted"]:
+			print(i)
+			topValue-=1
+			if (topValue == 0):
+				break
+		# print(self.data["sorted"][0])
+		# print(self.data["sorted"][1])
+		# print(self.data["sorted"][2])
+		# print(self.data["sorted"][3])
+		# print(self.data["sorted"][4])
