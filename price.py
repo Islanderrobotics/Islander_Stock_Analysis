@@ -1,5 +1,7 @@
-
-
+if __name__ == "__main__":
+    data = Price(symbol = "AACG", maximum = 10)
+    data.Price()
+    print(data.current_price)
 import requests
 from bs4 import BeautifulSoup as bs
 
@@ -45,9 +47,7 @@ class Price:
             raise StockDoesNotExistError(self.symbol) from error
         try:
             price = self.general.find('span', attrs={"data-reactid":"46"}).text
-            self.current_price = float(price.split(" ")[0]
-                                       .replace(",","")
-                                       .replace("(","")
+            self.current_price = float(price.split(" ")[0].replace(",","").replace("(","")
                                        .replace(")","")
                                        .replace("%",""))
             return

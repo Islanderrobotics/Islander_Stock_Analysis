@@ -74,23 +74,34 @@ class Islander_stocks:
 		for i in range(len(self.data["symbols"])):
 			temp = {}
 			for j in range(1,len(self.key)):
+				# print(self.data[self.key[j]][i])
 				temp[self.key[j]] = self.data[self.key[j]][i]
 			self.queue.Push(data=temp,key=key)
 			del temp
 		self.queue.Heapify(key = key)
-		while True:
+		# print(self.queue._Size(self.queue.root))
+		# self.queue.PreOrder()
+	def GetTop(self,topValue = None, key = "price"):
+		self.data["sorted"] = []
+		self.key.append("sorted")
+
+		while (True):
 			try:
-				self.queue.Dynamic(self.queue.root.data)
-				self.queue.RemoveMax(key="price")
+				# print(self.queue.root.data)
+				self.data["sorted"].append(self.queue.root.data)
+				self.queue.RemoveMax(key = key)
 			except AttributeError:
 				break
-	def GetTop(self,topValue):
-		# topValue = 3
-		temp = self.queue.head
-		while (self.queue.head is not None):
-			print(self.queue.head.data)
-			self.queue.head = self.queue.head.next
-			topValue-=1
-			if (topValue ==0):
-				break
-		self.queue.head = temp
+		print(len(self.data["sorted"]))
+		# if (topValue is None):
+		# 	topValue = len(self.data["sorted"])
+		# for i in self.data["sorted"]:
+		# 	print(i)
+		# 	topValue-=1
+		# 	if (topValue == 0):
+		# 		break
+		print(self.data["sorted"][0])
+		print(self.data["sorted"][1])
+		print(self.data["sorted"][2])
+		print(self.data["sorted"][3])
+		print(self.data["sorted"][4])
