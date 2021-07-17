@@ -32,7 +32,7 @@ class Price:
         self.symbol = symbol
         # print(symbol)
         self.maximum = maximum
-
+        self.soup = self.soup.find("div", attrs={"data-reactid":"48"})
     def Price(self):
         '''the purpose of this method is to get the current price'''
         try:

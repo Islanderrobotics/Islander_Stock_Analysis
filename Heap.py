@@ -104,9 +104,9 @@ class Heap(object):
         if root is None:
             return None
         if (root.left is not None):
-            print("max_left")
+            # print("max_left")
             if (root.left.data>root.data):
-                print("max left _1")
+                # print("max left _1")
                 temp_left = root.left.left
                 temp_right = root.left.right
                 root.left.right = root.right
@@ -118,9 +118,9 @@ class Heap(object):
             root.left = self._MaxHeapify(root.left)
 
         if (root.right is not None):
-            print("max right")
+            # print("max right")
             if (root.right.data>root.data):
-                print("max right 1")
+                # print("max right 1")
                 temp_left = root.right.left
                 temp_right = root.right.right
 
@@ -151,7 +151,7 @@ class Heap(object):
         if (root.right is not None):
 
             if (root.right.data[key]>root.data[key]):
-                print("max_right")
+                # print("max_right")
                 temp_left = root.right.left
                 temp_right = root.right.right
 

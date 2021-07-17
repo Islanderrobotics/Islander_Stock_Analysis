@@ -78,19 +78,17 @@ class Islander_stocks:
 			self.queue.Push(data=temp,key=key)
 			del temp
 		self.queue.Heapify(key = key)
-		while True:
+
+	def GetTop(self,topValue):
+		self.data["sorted"] = []
+		self.key.append("sorted")
+
+		while (True):
 			try:
-				self.queue.Dynamic(self.queue.root.data)
-				self.queue.RemoveMax(key="price")
+			# print(self.queue.root.data)
+				self.data["sorted"].append(self.queue.root.data)
+				self.queue.RemoveMax(key = "price")
 			except AttributeError:
 				break
-	def GetTop(self,topValue):
-		# topValue = 3
-		temp = self.queue.head
-		while (self.queue.head is not None):
-			print(self.queue.head.data)
-			self.queue.head = self.queue.head.next
-			topValue-=1
-			if (topValue ==0):
-				break
-		self.queue.head = temp
+		for i in self.data["sorted"]:
+			print(i)
