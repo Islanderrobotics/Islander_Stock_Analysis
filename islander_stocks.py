@@ -1,4 +1,5 @@
 import os
+import queue
 import threading
 from price import Price,StockDoesNotExistError
 from getting_the_data import GettingTheData
@@ -79,16 +80,23 @@ class Islander_stocks:
 			del temp
 		self.queue.Heapify(key = key)
 
-	def GetTop(self,topValue):
-		self.data["sorted"] = []
+	def GetTop(self,topValue = None):
+		self.data["sorted"] = IslanderQueue()
 		self.key.append("sorted")
 
 		while (True):
 			try:
 			# print(self.queue.root.data)
-				self.data["sorted"].append(self.queue.root.data)
+				self.data["sorted"].Push(data = self.queue.root.data)
 				self.queue.RemoveMax(key = "price")
 			except AttributeError:
 				break
-		for i in self.data["sorted"]:
-			print(i)
+		temp = self.data["sorted"].head
+		while (self.data["sorted"].head is not None):
+			print(self.data["sorted"].head.data)
+			if (topValue is not None):
+				topValue-=1
+				if (topValue==0):
+					break
+			self.data["sorted"].head = self.data["sorted"].head.next
+		self.queue.head = temp
