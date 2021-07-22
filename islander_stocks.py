@@ -81,7 +81,8 @@ class Islander_stocks:
 		self.queue.Heapify(key = key)
 
 	def GetTop(self,topValue = None):
-		self.data["sorted"] = self.queue.Convert(type = "list").data
+		self.queue.Convert(type = "list")
+
 		self.key.append("sorted")
-		for i in self.data["sorted"]:
+		for i in self.queue.data:
 			print(i)
