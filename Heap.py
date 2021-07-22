@@ -8,7 +8,6 @@ class HeapNode(object):
         self.right = None
         self.left = None
 
-# from islanderqueue import IslanderQueue
 class Heap(object):
     '''this is where we will build and actual heap'''
     def __init__(self,dictionary =False):
@@ -275,14 +274,14 @@ class Heap(object):
             self._MaxHeapifyDict(root = self.root, key = key)
         else:
             self._MaxHeapify(root = self.root)
-    def ConvertToList(self):
-        self.data = []
-        while (True):
-            try:
-                self.data.append(self.root.data)
-                self.RemoveMax(key = "price")
-            except AttributeError:
-                break
+    #def ConvertToList(self):
+     #   self.data = []
+      #  while (True):
+       #     try:
+        #        self.data.append(self.root.data)
+         #       self.RemoveMax(key = "price")
+          #  except AttributeError:
+           #     break
     # def ConvertToQueue(self):
     #     self.data = IslanderQueue
     #     while (True):
@@ -293,14 +292,14 @@ class Heap(object):
     #         except AttributeError:
     #             break
             
-    def Convert(self,type ="queue"):
-        self.Heapify(key = "price")
-        temp = self.root
-        # if (type=="queue"):
+    #def Convert(self,type ="queue"):
+    #    self.Heapify(key = "price")
+     #   temp = self.root
+      #  # if (type=="queue"):
         #    self.ConvertToQueue()
         # elif (type == "list"):
-        self.ConvertToList()
-        self.root = temp
+       # self.ConvertToList()
+        #self.root = temp
 if __name__ == "__main__":
     data = Heap()
     data.Insert({'price': 9.73, 'symbols': 'ADRA', 'percentage': 0.12},key = "price")
