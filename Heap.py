@@ -8,7 +8,7 @@ class HeapNode(object):
         self.right = None
         self.left = None
 
-from islanderqueue import IslanderQueue
+# from islanderqueue import IslanderQueue
 class Heap(object):
     '''this is where we will build and actual heap'''
     def __init__(self,dictionary =False):
@@ -275,31 +275,31 @@ class Heap(object):
             self._MaxHeapifyDict(root = self.root, key = key)
         else:
             self._MaxHeapify(root = self.root)
-    def ConverToList(self):
+    def ConvertToList(self):
         self.data = []
         while (True):
             try:
                 self.data.append(self.root.data)
-                self.RemoveMax(key = "price)
+                self.RemoveMax(key = "price")
             except AttributeError:
                 break
-    def ConvertToQueue(self):
-        self.data = IslanderQueue
-        while (True):
-			try:
-			# print(self.queue.root.data)
-				self.data.Push(data = self.root.data)
-				self.RemoveMax(key = "price")
-			except AttributeError:
-				break
+    # def ConvertToQueue(self):
+    #     self.data = IslanderQueue
+    #     while (True):
+    #         try:
+    #             # print(self.queue.root.data)
+    #             self.data.Push(data=self.queue.root.data)
+    #             self.RemoveMax(key="price")
+    #         except AttributeError:
+    #             break
             
     def Convert(self,type ="queue"):
         self.Heapify(key = "price")
         temp = self.root
-        if (type=="queue"):
-           self.ConvertToQueue()
-        elif (type == "list"):
-           self.ConvertToList()
+        # if (type=="queue"):
+        #    self.ConvertToQueue()
+        # elif (type == "list"):
+        self.ConvertToList()
         self.root = temp
 if __name__ == "__main__":
     data = Heap()
@@ -316,8 +316,8 @@ if __name__ == "__main__":
     # data.Insert(8);
     # data.PreOrder()
     # print(data.FindLast())
-    data.Covert(type = "list")
-    for  i data.data:
+    data.Convert(type = "list")
+    for  i in data.data:
         print(i)        
     # data.PostOrder()
     # # print(data.Height())

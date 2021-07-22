@@ -81,22 +81,7 @@ class Islander_stocks:
 		self.queue.Heapify(key = key)
 
 	def GetTop(self,topValue = None):
-		self.data["sorted"] = IslanderQueue()
+		self.data["sorted"] = self.queue.Convert(type = "list").data
 		self.key.append("sorted")
-
-		while (True):
-			try:
-			# print(self.queue.root.data)
-				self.data["sorted"].Push(data = self.queue.root.data)
-				self.queue.RemoveMax(key = "price")
-			except AttributeError:
-				break
-		temp = self.data["sorted"].head
-		while (self.data["sorted"].head is not None):
-			print(self.data["sorted"].head.data)
-			if (topValue is not None):
-				topValue-=1
-				if (topValue==0):
-					break
-			self.data["sorted"].head = self.data["sorted"].head.next
-		self.queue.head = temp
+		for i in self.data["sorted"]:
+			print(i)
