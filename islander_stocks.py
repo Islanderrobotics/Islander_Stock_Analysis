@@ -84,5 +84,5 @@ class Islander_stocks:
 		self.queue.Convert(type = "list")
 
 		self.key.append("sorted")
-		for i in self.queue.data:
+		for i in self.queue.sorted_data:
 			print(i)

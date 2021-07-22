@@ -13,9 +13,9 @@ class IslanderQueue(ll,Heap):
             return True
         return False
     def Size(self):
-         if (self.priority):
-             return self._Size(self.root)
-         else:
+        if (self.priority):
+            return self._Size(self.root)
+        else:
             return self.size()
     def Push(self,data,key = None):
         if (self.priority is True):
@@ -37,26 +37,24 @@ class IslanderQueue(ll,Heap):
         self.sorted_data = []
         while (True):
             try:
-                self.data.append(self.root.data)
+                self.sorted_data.append(self.root.data)
                 self.RemoveMax(key = "price")
             except AttributeError:
                 break
-     def ConvertToQueue(self):
-         self.sorted_data = IslanderQueue
-         while (True):
-             try:
-                 # print(self.queue.root.data)
-                 self.Dynamic(data=self.root.data)
-                 self.RemoveMax(key="price")
-             except AttributeError:
-                 break
+    def ConvertToQueue(self):
+        while (True):
+            try:
+                self.Dynamic(data=self.root.data)
+                self.RemoveMax(key="price")
+            except AttributeError:
+                break
             self.sorted_data = self.head
     def Convert(self,type ="queue"):
         self.Heapify(key = "price")
         temp = self.root
         if (type=="queue"):
             self.ConvertToQueue()
-         elif (type == "list"):
+        elif (type == "list"):
             self.ConvertToList()
             self.root = temp    
 if __name__ == '__main__':
