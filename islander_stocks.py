@@ -76,13 +76,20 @@ class Islander_stocks:
 			temp = {}
 			for j in range(1,len(self.key)):
 				temp[self.key[j]] = self.data[self.key[j]][i]
+			# print(temp)
 			self.queue.Push(data=temp,key=key)
 			del temp
 		self.queue.Heapify(key = key)
 
 	def GetTop(self,topValue = None):
 		self.queue.Convert(type = "list")
-
+		# print(self.queue.Size())
+		# print(len(self.queue.sorted_data))
 		self.key.append("sorted")
 		for i in self.queue.sorted_data:
 			print(i)
+			# if (topValue is None):
+			# 	topValue = len(self.queue.sorted_data)
+			# topValue-=1
+			# if (topValue == 0):
+			# 	break

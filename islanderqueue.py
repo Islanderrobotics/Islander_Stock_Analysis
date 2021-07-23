@@ -33,30 +33,31 @@ class IslanderQueue(ll,Heap):
             self.RemoveMax(key = key)
         else:
             self.head =self.head.next
-    def ConvertToList(self):
-        self.sorted_data = []
-        while (True):
-            try:
-                self.sorted_data.append(self.root.data)
-                self.RemoveMax(key = "price")
-            except AttributeError:
-                break
-    def ConvertToQueue(self):
-        while (True):
-            try:
-                self.Dynamic(data=self.root.data)
-                self.RemoveMax(key="price")
-            except AttributeError:
-                break
-            self.sorted_data = self.head
-    def Convert(self,type ="queue"):
-        self.Heapify(key = "price")
-        temp = self.root
-        if (type=="queue"):
-            self.ConvertToQueue()
-        elif (type == "list"):
-            self.ConvertToList()
-            self.root = temp    
+    # def ConvertToList(self):
+    #     self.sorted_data = []
+    #     while (True):
+    #         try:
+    #             print(self.root.data)
+    #             self.sorted_data.append(self.root.data)
+    #             self.RemoveMax(key = "price")
+    #         except AttributeError:
+    #             break
+    # def ConvertToQueue(self):
+    #     while (True):
+    #         try:
+    #             self.Dynamic(data=self.root.data)
+    #             self.RemoveMax(key="price")
+    #         except AttributeError:
+    #             break
+    #         self.sorted_data = self.head
+    # def Convert(self,type ="queue"):
+    #     self.Heapify(key = "price")
+    #     temp = self.root
+    #     if (type=="queue"):
+    #         self.ConvertToQueue()
+    #     elif (type == "list"):
+    #         self.ConvertToList()
+    #     self.root = temp
 if __name__ == '__main__':
     data = IslanderQueue(priority= True)
     data.Push(data={"price":543, "current":"what"},key = "price")
