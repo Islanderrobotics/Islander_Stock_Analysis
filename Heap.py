@@ -271,9 +271,12 @@ class Heap(object):
             self._MaxHeapify(root = self.root)
     def ConvertToList(self):
         self.sorted_data = []
+        self.sorted_data.append(self.root.data)
+        self.RemoveMax(key="price")
         for i in range(self._Size(self.root)):
-            self.sorted_data.append(self.root.data)
-            self.RemoveMax(key = "price")
+            if (self.sorted_data[-1] != i):
+                self.sorted_data.append(self.root.data)
+                self.RemoveMax(key = "price")
             # except AttributeError:
             #     break
     # def ConvertToQueue(self):
@@ -312,12 +315,11 @@ if __name__ == "__main__":
     data.Insert({'price': 7.57, 'symbols': 'APT', 'percentage': 0.49},key = "price")
     data.Insert({'price': 4.0, 'symbols': 'BTG', 'percentage': 0.05},key = "price")
     data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key = "price")
-    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 9.88, 'symbols': 'APT', 'percentage': 0.82, 'overall_percentage': 9.05}, key="price")
     data.Insert({'price': .22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 4.4, 'symbols': 'AWX', 'percentage': 0.02, 'overall_percentage': 0.46}, key="price")
+    data.Insert({'price': 2.76, 'symbols': 'AMS', 'percentage': 0.05, 'overall_percentage': 1.85}, key="price")
     data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
-    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
-    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
-    print(data._Size(data.root.left) == data._Size(data.root.right))
     # print(f"what{data._IsFull(data.root)}")
     data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
     # print("10")
@@ -341,6 +343,7 @@ if __name__ == "__main__":
     # data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")#23
     # data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
     data.Convert()
+    print(len(data.sorted_data))
     for i in data.sorted_data:
         print(i)
     # print(data._Size(data.root))
