@@ -1,22 +1,14 @@
-
-
-
-class HeapNode(object):
-    '''due to the way that heaps work we will need a new Node class'''
-    def __init__(self, data=None):
-        self.data = data
-        self.right = None
-        self.left = None
-
-class Heap(object):
+from node import Node
+from tree import Tree
+class Heap(Tree):
     '''this is where we will build and actual heap'''
     def __init__(self,dictionary =False):
-        self.root = None
+        Tree.__init__(self)
         self.dictionary = dictionary
 
     def _Insert(self,data,root):
         if (root is None):
-            return HeapNode(data = data)
+            return Node(data = data)
         if (data>root.data):
             temp = root.data
             root.data = data
@@ -29,7 +21,7 @@ class Heap(object):
         return root
     def _InsertDict(self,data,root,key):
         if (root is None):
-            return HeapNode(data = data)
+            return Node(data = data)
         if (data[key]>root.data[key]):
             temp = root.data
             root.data = data
@@ -40,24 +32,6 @@ class Heap(object):
         else:
             root.right = self._InsertDict(data,root.right,key)
         return root
-    def _IsFull(self, root):
-        if root is None:
-            return False
-        if (root.left is None and root.right is None):
-            return True
-        if (root.left is not None and root.right is not None):
-            return self._IsFull(root.left) and self._IsFull(root.right)
-        return False
-
-    def _Height(self, root):
-        if (root is None):
-            return -1
-        left = self._Height(root.left)
-        right = self._Height(root.right)
-        if(left>right):
-            return(left+1)
-        else:
-            return(right+1)
 
     def _Delete(self,root):
         if (root is None):
@@ -83,22 +57,6 @@ class Heap(object):
         if (found):
             return True
         return self._SearchDict(root.right,data,key)
-    def _IsComplete(self,root, index,node_count):
-        if root is None:
-            return  True
-        if (index>=node_count):
-            return False
-
-        left_completed = self._IsComplete(root.left,2*index+1,node_count)
-        right_completed = self._IsComplete(root.right,2*index+2,node_count)
-        return left_completed and right_completed
-    def _Size(self,root):
-        if (root is None):
-            return 0
-        left_size = self._Size(root.left)
-        right_size = self._Size(root.right)
-
-        return left_size+right_size +1
     def _MaxHeapify(self,root):
         if root is None:
             return None
@@ -205,29 +163,30 @@ class Heap(object):
         self._DeleteElementDict(data,root.left,key)
         self._DeleteElementDict(data,root.right,key)
     def _RemoveMax(self,root):
-        last_node = self._FindLast(self.root,0,self._Size(self.root))
+        last_node = self._FindLeftMost(self.root)
         self.top = root.data
         root.data = last_node.data
         del last_node
+    def _FindLeftMost(self,root):
+        if (root.left is None):
+            temp = root
+            # print(root is None)
+            root = None
+            return temp
+        return self._FindLeftMost(root.left)
+    def ConvertToList(self):
+        self.sorted_data = []
+        self.sorted_data.append(self.root.data)
+        self.RemoveMax(key="price")
+        self.sorted_data.append(self.root.data)
+        self.RemoveMax(key="price")
+        for i in range(self._Size(self.root)):
 
-    def _PreOrder(self,root):
-        if (root is None):
-            return
-        print(root.data)
-        self._PreOrder(root.left)
-        self._PreOrder(root.right)
-    def _InOrder(self,root):
-        if (root is None):
-            return
-        self._InOrder(root.left)
-        print(root.data)
-        self._InOrder(root.right)
-    def _PostOrder(self,root):
-        if (root is None):
-            return
-        self._PostOrder(root.left)
-        self._PostOrder(root.right)
-        print(root.data)
+            self.sorted_data.append(self.root.data)
+            self.RemoveMax(key="price")
+            if (self.sorted_data[-1] == self.sorted_data[-2] ):
+                self.sorted_data.pop(-1)
+
     '''this is where all of the above functions will get called'''
     def DeleteQueue(self):
         self._Delete(self.root)
@@ -237,23 +196,12 @@ class Heap(object):
         else:
             self.root = self._Insert(data,self.root)
         self.dictionary = isinstance(data,dict)
-    def Height(self):
-        return self._Height(self.root)
-    def PreOrder(self):
-        self._PreOrder(self.root)
-    def PostOrder(self):
-        self._PostOrder(self.root)
-    def Inorder(self):
-        self._InOrder(self.root)
+
     def Search(self,data,key = None):
         if (self.dictionary):
             return self._SearchDict(data = data, root = self.root,key = key)
         else:
             return self._Search(data= data, root = self.root)
-    def IsFull(self):
-        return self._IsFull(self.root)
-    def IsComplete(self):
-        return self._IsComplete(self.root,0, self._Size(self.root))
     def RemoveMax(self, key = None):
         self._RemoveMax(self.root)
         if (self.root):
@@ -274,38 +222,51 @@ class Heap(object):
             self._MaxHeapifyDict(root = self.root, key = key)
         else:
             self._MaxHeapify(root = self.root)
-    #def ConvertToList(self):
-     #   self.data = []
-      #  while (True):
-       #     try:
-        #        self.data.append(self.root.data)
-         #       self.RemoveMax(key = "price")
-          #  except AttributeError:
-           #     break
-    # def ConvertToQueue(self):
-    #     self.data = IslanderQueue
-    #     while (True):
-    #         try:
-    #             # print(self.queue.root.data)
-    #             self.data.Push(data=self.queue.root.data)
-    #             self.RemoveMax(key="price")
-    #         except AttributeError:
-    #             break
-            
-    #def Convert(self,type ="queue"):
-    #    self.Heapify(key = "price")
-     #   temp = self.root
-      #  # if (type=="queue"):
-        #    self.ConvertToQueue()
-        # elif (type == "list"):
-       # self.ConvertToList()
-        #self.root = temp
+
+
+    def Convert(self, type="queue"):
+        self.Heapify(key="price")
+        # temp = self.root
+        # if (type=="queue"):
+        #     self.ConvertToQueue()
+        #  elif (type == "list"):
+        self.ConvertToList()
+        # self.root = temp
 if __name__ == "__main__":
     data = Heap()
     data.Insert({'price': 9.73, 'symbols': 'ADRA', 'percentage': 0.12},key = "price")
     data.Insert({'price': 7.57, 'symbols': 'APT', 'percentage': 0.49},key = "price")
     data.Insert({'price': 4.0, 'symbols': 'BTG', 'percentage': 0.05},key = "price")
     data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key = "price")
+    data.Insert({'price': 9.73, 'symbols': 'ADRA', 'percentage': 0.12}, key="price")
+    data.Insert({'price': 7.57, 'symbols': 'APT', 'percentage': 0.49}, key="price")
+    data.Insert({'price': 4.0, 'symbols': 'BTG', 'percentage': 0.05}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 9.88, 'symbols': 'APT', 'percentage': 0.82, 'overall_percentage': 9.05}, key="price")
+    data.Insert({'price': .22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 4.4, 'symbols': 'AWX', 'percentage': 0.02, 'overall_percentage': 0.46}, key="price")
+    data.Insert({'price': 2.76, 'symbols': 'AMS', 'percentage': 0.05, 'overall_percentage': 1.85}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    # print(f"what{data._IsFull(data.root)}")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    # print("10")
+    # print(data._Size(data.root.left) == data._Size(data.root.right))
+    # print(f"what{data._IsFull(data.root)}")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    # print("11")
+    # print(data._Size(data.root.left) == data._Size(data.root.right))
+    # print(f"what{data._IsFull(data.root)}")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")  # 10 11 18 19
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")
+    data.Insert({'price': 2.22, 'symbols': 'AXU', 'percentage': 0.02}, key="price")  # 22
     # data.Insert(5);
     # data.Insert(3);
     # data.Insert(7);
@@ -316,7 +277,7 @@ if __name__ == "__main__":
     # data.PreOrder()
     # print(data.FindLast())
     data.Convert(type = "list")
-    for  i in data.data:
+    for  i in data.sorted_data:
         print(i)        
     # data.PostOrder()
     # # print(data.Height())
