@@ -60,7 +60,8 @@ class Tree:
     left_completed = self._IsComplete(root.left, 2 * index + 1, node_count)
     right_completed = self._IsComplete(root.right, 2 * index + 2, node_count)
     return left_completed and right_completed
-
+  def Size(self):
+    return self._Size(self.root)
   def Height(self):
     return self._Height(self.root)
   def PreOrder(self):
@@ -69,9 +70,8 @@ class Tree:
     self._PostOrder(self.root)
   def Inorder(self):
     self._InOrder(self.root)
-  def Size(self):
-    return self._Size(self.root)
+
   def IsFull(self):
-      return self._IsFull(self.root)
+    return self._IsFull(self.root)
   def IsComplete(self):
-      return self._IsComplete(self.root,0, self._Size(self.root))
+    return self._IsComplete(self.root,0, self._Size(self.root))
