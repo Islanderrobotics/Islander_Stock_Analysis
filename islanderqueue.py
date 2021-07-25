@@ -21,7 +21,10 @@ class IslanderQueue(ll,Heap):
             self.count += 1
             self.Insert(data,key = key)
         else:
-            self.Dynamic(data = data)
+            if self.sizeofLinkedList == 0:
+                self.PushBack(data)
+            else:
+                self.PushFront(data)
     def Top(self):
         if (self.priority is True):
             return self.root
