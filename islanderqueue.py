@@ -1,7 +1,6 @@
-import linkedlist
+
 from linkedlist import LinkedList as ll
 from Heap import Heap
-from linkedlist import Node
 class IslanderQueue(ll,Heap):
     def __init__(self, priority = False):
         ll.__init__(self)
@@ -13,9 +12,9 @@ class IslanderQueue(ll,Heap):
             return True
         return False
     def Size(self):
-         if (self.priority):
-             return self._Size(self.root)
-         else:
+        if (self.priority):
+            return self._Size(self.root)
+        else:
             return self.size()
     def Push(self,data,key = None):
         if (self.priority is True):

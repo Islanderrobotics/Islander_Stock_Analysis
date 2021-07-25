@@ -1,14 +1,6 @@
 
 
-
-class Node:
-    '''essentialy this class is the back bone for the linked list '''
-
-    def __init__(self, next=None, data=None):
-        self.next = next
-        self.data = data
-
-
+from node import Node
 class LinkedList:
     '''this is class will allow for the user the ability to convert
     there data to a linked list'''
